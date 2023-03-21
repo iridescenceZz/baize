@@ -1,2 +1,2 @@
-# wowotou.GitHub.io
-my blog
+# 笔记
+
