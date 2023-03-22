@@ -1,4 +1,4 @@
-<img width="180px" style="border-radius: 50%" bor src="./doc/icon/index.ico">
+<img width="360px" style="border-radius: 10%" bor src="./doc/icon/index.ico">
 
 #   📙学习笔记
 
@@ -6,7 +6,7 @@
 
 :rocket: 本站访问数：<span id="busuanzi_value_site_pv"></span>次
 
-[Github](<https://github.com/iridescenceZz/iridescenceZz>)
+[Github](<https://github.com/iridescenceZz/baize>)
 [开始阅读](README.md)
 
 
