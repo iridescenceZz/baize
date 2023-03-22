@@ -6,6 +6,8 @@
 
 :rocket: 本站访问数：<span id="busuanzi_value_site_pv"></span>次
 
+:rocket: 本站访客数<span id="busuanzi_value_site_uv"></span>人次
+
 [Github](<https://github.com/iridescenceZz/baize>)
 [开始阅读](README.md)
 
