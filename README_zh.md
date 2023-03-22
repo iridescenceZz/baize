@@ -1,14 +1,9 @@
-# 📙陌溪的学习笔记
+# 📙学习笔记
 
-## 关于我
-
-[**陌溪**](https://gitee.com/moxi159753/LearningNotes/raw/master/doc/images/qq/添加陌溪.png) 是一个从三本院校一路摸滚翻爬上来的程序员。目前就职于字节跳动的Data广告部门，是字节跳动全线产品的商业变现研发团队。这两天创建了一个 **微信公众号【[陌溪教你学编程](https://gitee.com/moxi159753/LearningNotes/raw/master/doc/images/qq/公众号2.jpg)】**，未来将会在公众号上持续性的输出很多原创小知识以及学习资源，欢迎各位小伙伴关注我，和我一起共同学习，同时我也希望各位小伙伴能够给 **LearningNotes** 项目多多 **Star** 支持，您的**点赞**就是我维护的动力！
-
-🔗友情链接：我的好友阿秀前段时间收集了超过1000本计算机经典书籍的PDF，包括C++、Java、Python、操作系统、计算机网络、数据库等方面的书籍都有收录，基本上你能听过的都在里面了。这是他的仓库 [CS-Books](https://github.com/forthespada/CS-Books)，大家可以去看看，以后看书不花钱不是梦了哈哈，欢迎Star⭐
 
 ## 项目介绍
 
-个人学习笔记，主要来源于B站上视频的学习，同时会记录平时一些学习和项目中遇到的问题，同步更新在 [蘑菇博客](http://www.moguit.cn)，如果对我的博客网站感兴趣的话，欢迎关注我的 [蘑菇博客源码](https://gitee.com/moxi159753/mogu_blog_v2)，如果笔记对您有帮助的话，欢迎star支持，谢谢~
+个人学习笔记，主要来源于B站上视频的学习，网络博客等，同时会记录平时一些学习和项目中遇到的问题，如有问题欢迎指正～
 
 笔记主要涵盖：**Java**，**JVM**、**JUC**、**Spring**，**SpringCloud**，**计算机网络**，**操作系统**，**数据结构**，**Vue** 等
 
@@ -16,114 +11,15 @@
 
 因个人能力有限，笔记中可能还有**很多错误**的地方，还请大家能够多多指出交流，也欢迎各位小伙伴能够提交 **Pull Request** 请求进行完善。
 
-如果您要转载本仓库中的笔记到其它地方，欢迎添加笔记的仓库地址：[LearningNotes](https://gitee.com/moxi159753/LearningNotes)
-
-## PDF下载
-
-本仓库中整理的笔记同时提供 **PDF** 离线版本，请扫描下方公众号『**陌溪教你学编程**』后，回复关键字『**PDF**』，即可下载 **仓库最新 PDF 版本的笔记**。
-
-<p align=center>
-    <img src="./doc/images/qq//获取PDF.jpg" width="500" />
-</p>
-
-## 在线阅读
-
-为了更方便小伙伴的复习和查询，把本仓库做成一个在线的文档
-
-- 在线文档：http://note.moguit.cn/
-- 备用地址：http://moxi159753.gitee.io/learningnotes/
-
-## 内推
-
-目前字节跳动拥有大量岗位需求，欢迎点击下方**内推链接**【内推码: **WYU3X8M**】选择合适的岗位投递。小伙伴们使用**内推链接**投递后，可以通过 **公众号** 联系我跟进面试进度。
-
-提前批投递：[点我传送](https://jobs.toutiao.com/s/eGmrue1) ，社会招聘：[点我传送](https://job.toutiao.com/s/eGmBtNC)
-
 ## 仓库地址
 
-本仓库同步托管在Github和Gitee中
+本仓库同步托管在Github
 
-- Gitee仓库：https://gitee.com/moxi159753/LearningNotes
-- Github仓库：https://github.com/moxi624/LearningNotes
+- Github仓库：https://github.com/iridescenceZz/iridescenceZz
 
 ## 个人博客搭建
 
-如果想搭建个人的博客系统，可以购买优惠服务器后，参考 [20分钟部署一个微服务架构的博客系统](https://www.bilibili.com/video/BV13y4y1V7Us)  在服务器搭建 [蘑菇博客项目](https://gitee.com/moxi159753/mogu_blog_v2) 用于知识点的梳理
-
-> 【阿里云】云服务器狂欢特惠，**2核2G5M** 轻量级应用服务器 **60** 元/年【博主目前使用】 [点我传送](https://www.aliyun.com/minisite/goods?userCode=w7aungxw)
->
-> 【腾讯云】云产品限时秒杀，爆款 **2核4G8M** 云服务器，首年**74**元/年【博主强烈推荐】 [点我进入](https://curl.qcloud.com/TYzPgyNC)
-
-## 公众号文章
-
-> 来源陌溪的个人公众号：**[陌溪教你学编程](https://gitee.com/moxi159753/wx_picture/raw/master/picture/%E5%85%AC%E4%BC%97%E5%8F%B7.jpg)**
-
-- [大型生产事故,开源项目蘑菇博客差点被删库](http://www.moguit.cn/info/392)
-- [蘑菇博客从0到2000Star，分享我的Java自学路线图](http://www.moguit.cn/info/581)
-- [陌溪在开源社区逛了几个月, 终于写下了蘑菇博客的开源文档](http://www.moguit.cn/info/347)
-- [从三本院校到斩获字节跳动后端研发Offer-讲述我的故事](http://www.moguit.cn/info/587)
-- [年轻人不讲码德,竟然用1核2G服务器来部署蘑菇博客](http://www.moguit.cn/info/96)
-- [蘑菇博客前端页面如何引入矢量图标](http://www.moguit.cn/info/39)
-- [Windows+VMware快速搭建蘑菇博客本地开发环境](http://www.moguit.cn/info/583)
-- [陌溪在公众号摸滚翻爬半个月，整理的入门指南](http://www.moguit.cn/info/585)
-- [Nacos出现重大安全漏洞,开源项目险遭脱库](http://www.moguit.cn/info/586)
-- [还在人肉运维？看看蘑菇博客是如何实现自动化部署](http://www.moguit.cn/info/13)
-- [使用IDEA发布蘑菇博客Docker镜像到服务器](http://www.moguit.cn/info/588)
-- [陌溪在Github网上冲浪时遇到的问题](http://www.moguit.cn/info/589)
-- [陌溪终于有时间写代码了](http://www.moguit.cn/info/592)
-- [开源项目蘑菇博客是如何集成第三方登录](http://www.moguit.cn/info/247)
-- [SpringBoot项目启动时增加自定义Banner](http://www.moguit.cn/info/245)
-- [蘑菇博客Golang版安装指南](http://www.moguit.cn/info/593)
-- [开源项目蘑菇博客如何集成Minio对象存储服务器](http://www.moguit.cn/info/278)
-- [读者问:有没有高效的记视频笔记方法？](http://www.moguit.cn/info/594)
-- [不限速的阿里云盘PC桌面版本来了~](http://www.moguit.cn/info/596)
-- [万字长文带你学习ElasticSearch](http://www.moguit.cn/info/375)
-- [一文带你了解轻量性日志采集器Beats的使用](http://www.moguit.cn/info/203)
-- [如何使用一条命令完成蘑菇博客的部署？](http://www.moguit.cn/info/597)
-- [双非本科，折戟成沙铁未销，九面字节终上岸！](http://www.moguit.cn/info/598)
-- [如何给蘑菇博客搭建一套分布式日志收集系统？](http://www.moguit.cn/info/436)
-- [蘑菇博客被跨站脚本攻击了？](http://www.moguit.cn/info/613)
-- [如何给蘑菇博客搭建一套全链路追踪模块？](http://www.moguit.cn/info/95)
-- [陌溪在字节跳动工作两周啦~](http://www.moguit.cn/info/600)
-- [为什么你们制作镜像只有5MB，而我却200MB？](http://www.moguit.cn/info/573)
-- [面试官：谈谈你对ThreadLocal的理解？](http://www.moguit.cn/info/54)
-- [字节二面：蘑菇博客是怎么解决缓存穿透的](http://www.moguit.cn/info/602)
-- [还在用破解IDEA？陌溪手把手教如何申请正版](http://www.moguit.cn/info/604)
-- [32图，教你部署一个博客小程序](http://www.moguit.cn/info/605)
-- [为什么我向开源项目作者提问，他却不理我？](http://www.moguit.cn/info/311)
-- [14次架构升级，淘宝是如何从单机到支持千万级别并发？](http://www.moguit.cn/info/71)
-- [陌溪让公司损失了100万。。。](http://www.moguit.cn/info/606)
-- [如何用可视化工具，管理蘑菇博客中的微服务组件？](http://www.moguit.cn/info/570)
-- [陌溪准备买房啦~](http://www.moguit.cn/info/611)
-- [学妹问：我可以用蘑菇博客作为毕设么？](http://www.moguit.cn/info/612)
-- [蘑菇博客更新啦](http://www.moguit.cn/info/615)
-- [如何通过宝塔安装蘑菇博客](http://www.moguit.cn/info/618)
-- [什么！蘑菇博客在国庆期间仅有1人访问？](http://www.moguit.cn/info/620)
-- [恭喜这位学弟！民办二本九面字节终上岸](https://www.moguit.cn/info/622)
-- [什么！有人在蘑菇留言区口吐芬芳？](http://www.moguit.cn/info/621)
-- [低配服务器也能玩转蘑菇博客！](http://www.moguit.cn/info/623)
-- [蘑菇博客Go版一键部署指南](https://www.moguit.cn/info/623)
-- [帮老家的亲戚搭建一个小程序商城](http://www.moguit.cn/info/625)
-- [蘑菇群友来杭州了..](http://www.moguit.cn/info/626)
-- [首次开放下载！BAT大厂面试求职必备！Gitee高星笔记！](https://www.moguit.cn/info/627)
-- [再见了VMware，一款更轻量级的虚拟机！](http://www.moguit.cn/info/628)
-- [蘑菇社区更新日志](https://www.moguit.cn/info/656)
-- [震惊！！！蘑菇社区竟然遭遇了DOS攻击！](http://www.moguit.cn/info/651)
-- [陌溪在百度上搜索蘑菇博客，被吓了一跳](https://www.moguit.cn/info/702)
-- [让天下没有难装的环境！](https://www.moguit.cn/info/762)
-- [一款强大的桌面级工具平台-Utools](https://www.moguit.cn/info/923)
-- [蘑菇过了个年又宕机了。。如何优雅的移除CDN](https://www.moguit.cn/info/944)
-- [字节跳动春季招聘来啦，文末陌溪上岸面经~](https://www.moguit.cn/info/967)
-- [网站打开花了20秒，我决定自建蘑菇CDN](https://www.moguit.cn/info/976)
-- [2年目睹了40场删库场景，我决定给蘑菇写一个备份脚本](https://www.moguit.cn/info/1003)
-- [公众号万粉了](https://www.moguit.cn/info/1038)
-- [蘑菇博客K8S搭建指南](https://www.moguit.cn/info/1060)
-- [网站被刷了！](https://www.moguit.cn/info/1061)
-- [一款功能强大的Docker容器实时指标监控](https://www.moguit.cn/info/1069)
-- [使用Kubernetes部署蘑菇社区](https://www.moguit.cn/info/1077)
-- [AOP实现登录校验注解，能作用于方法和类上](https://www.moguit.cn/info/1090)
-- [网站被收录了！](https://www.moguit.cn/info/1092)
-- [盘一盘，近期蘑菇社区都更新啥~](https://www.moguit.cn/info/1115)
+计划中···
 
 ## Java
 
