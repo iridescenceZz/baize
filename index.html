@@ -45,6 +45,17 @@
             placeholder: '搜索', // 搜索提示框文字， 支持本地化，例子在下面
             noData: '找不到结果!',
             depth: 3,                       // 搜索标题的最大程级, 1 - 6
+
+            // 使用不同的索引作为路径前缀（namespaces）
+            // 注意：仅适用于 paths: 'auto' 模式
+            //
+            // 初始化索引时，我们从侧边栏查找第一个路径
+            // 如果它与列表中的前缀匹配，我们将切换到相应的索引
+            pathNamespaces: ['/zh-cn', '/ru-ru', '/ru-ru/v1'],
+
+            // 您可以提供一个正则表达式来匹配前缀。在这种情况下，
+            // 匹配到的字符串将被用来识别索引
+            pathNamespaces: /^(\/(zh-cn|ru-ru))?(\/(v1|v2))?/
         },
         footer: {
             copy: '<span id="sitetime" style="font-size:14px"></span><br/><span style="font-size:14px">  Copyright <a href="https://t.1yb.co/sBOZ" target="_blank" style="font-size:14px"> 🏷️ <strong>白泽</strong> </a>  &nbsp;  &copy; 2021.06.11 - 至今 &nbsp; <a href="https://beian.miit.gov.cn/" target="_blank" style="font-size:14px"> <strong>备案号：</strong></a></span>',
@@ -127,7 +138,7 @@
         minutes - 0-59之间的整数，做为date对象的分钟数
         seconds - 0-59之间的整数，做为date对象的秒数
         microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2021, 06, 11, 00, 00, 00); //北京时间2021-06-11
+        var t1 = Date.UTC(2019, 15, 07, 00, 00, 00); //北京时间2019-07-15
         var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
         var diff = t2 - t1;
         var diffYears = Math.floor(diff / years);
