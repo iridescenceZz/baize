@@ -1,170 +1,632 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>学习笔记</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <meta name="description" content="学习笔记，面试突击宝典">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#080812">
+<title>大乐透 · 旋转矩阵</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold:#f5c842; --gold2:#c9a020; --gold-bg:rgba(245,200,66,.10);
+  --red:#e63946;  --red-bg:rgba(230,57,70,.12);
+  --blue:#4cc9f0; --blue-bg:rgba(76,201,240,.12);
+  --green:#52d68a;--green-bg:rgba(82,214,138,.12);
+  --bg:#080812; --surface:#111120; --surface2:#181830;
+  --border:rgba(255,255,255,.08); --border-gold:rgba(245,200,66,.25);
+  --text:#eae2d0; --text2:#9a9080; --text3:#5a5448;
+  --r:14px; --rs:8px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --safe-t:env(safe-area-inset-top,0px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:15px;}
+body{
+  font-family:'Noto Sans SC',system-ui,sans-serif;
+  background:var(--bg); color:var(--text);
+  min-height:100dvh; overflow-x:hidden;
+  -webkit-text-size-adjust:100%;
+  padding-bottom:calc(76px + var(--safe-b));
+}
+button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;font-family:inherit;border:none;cursor:pointer;}
+*{-webkit-tap-highlight-color:transparent;}
 
-    <title>学习笔记 - 记录日常学习生活</title>
-    <meta name="keywords" content="学习笔记,IT笔记,技术笔记,生活社区">
-    <meta name="description" content="记录日常学习，备注大脑知识">
-    <link rel="canonical" href="https://iridescencezz.github.io/#/">
-    <meta property="og:locale" content="zh_CN">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="记录日常学习，备注大脑知识">
-    <meta property="og:description" content="记录日常学习，备注大脑知识">
-    <meta property="og:url" content="https://iridescencezz.github.io/#/">
-    <meta property="og:site_name" content="学习笔记">
-    <meta name="twitter:description" content="记录日常学习，备注大脑知识">
-    <meta name="twitter:title" content=">记录日常学习，备注大脑知识">
-    <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+/* ── STICKY HEADER ── */
+.hdr{
+  position:sticky;top:0;z-index:50;
+  background:rgba(8,8,18,.92);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  padding:calc(var(--safe-t)+14px) 16px 10px;
+  text-align:center;
+}
+.hdr-title{
+  font-size:1.05rem;font-weight:700;letter-spacing:.04em;
+  background:linear-gradient(120deg,#ffe47a,var(--gold),#d4920a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hdr-sub{font-size:.62rem;color:var(--text3);margin-top:1px;letter-spacing:.08em;}
 
-    <!-- 谷歌站点收录 -->
-    <meta name="google-site-verification" content="qTFCf1hJ275saQ7H1kin5t2DVpznBKAj0Gi50XMOVMo"/>
-    <!-- 百度站点收录-->
-    <meta name="baidu-site-verification" content="SZyWUIzWiU"/>
+/* ── PROGRESS ── */
+.prog{display:flex;align-items:center;justify-content:center;margin-top:10px;gap:0;}
+.ps{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.pc{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--surface2);border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text3);
+  transition:all .3s;
+}
+.pc.done{background:linear-gradient(135deg,var(--gold2),var(--gold));border-color:var(--gold);color:#1a1000;font-weight:700;}
+.pc.cur{border-color:var(--gold);color:var(--gold);}
+.pl{font-size:.52rem;color:var(--text3);white-space:nowrap;transition:color .3s;}
+.pl.done{color:var(--gold2);} .pl.cur{color:var(--gold);}
+.pline{width:32px;height:2px;background:var(--border);margin-bottom:13px;overflow:hidden;position:relative;}
+.pline-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--gold2),var(--gold));width:0;transition:width .4s ease;}
 
+/* ── MAIN ── */
+main{padding:10px 10px 0;display:flex;flex-direction:column;gap:9px;max-width:560px;margin:0 auto;}
+
+/* ── CARD ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .25s,opacity .25s;}
+.card.locked{opacity:.42;pointer-events:none;}
+.card.active{border-color:var(--border-gold);}
+
+.chead{display:flex;align-items:center;gap:9px;padding:11px 13px;cursor:pointer;user-select:none;-webkit-user-select:none;}
+.chead:active{background:rgba(255,255,255,.03);}
+.sbadge{
+  width:25px;height:25px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:#1a1000;font-size:.68rem;font-weight:700;
+  font-family:'Share Tech Mono',monospace;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.sbadge.done-b{background:transparent;color:var(--gold2);border:1.5px solid var(--gold2);}
+.cht{flex:1;min-width:0;}
+.ctitle{font-size:.86rem;font-weight:600;color:var(--text);}
+.csub{font-size:.68rem;color:var(--text2);margin-top:1px;}
+.chev{color:var(--text3);font-size:.9rem;transition:transform .25s;flex-shrink:0;}
+.card.coll .chev{transform:rotate(-90deg);}
+
+.cbody{padding:0 13px 13px;overflow:hidden;transition:max-height .35s ease,opacity .3s;}
+.card.coll .cbody{max-height:0!important;opacity:0;padding-bottom:0;}
+
+.cdiv{height:1px;background:var(--border);margin:0 13px;}
+
+/* ── INFO PILL ── */
+.info-row{display:flex;align-items:center;justify-content:space-between;margin:9px 0 8px;}
+.pill{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--gold-bg);border:1px solid var(--border-gold);
+  border-radius:20px;padding:3px 10px;
+  font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--gold);
+}
+.pill .n{color:var(--text);font-weight:700;}
+.ibtn-row{display:flex;gap:5px;}
+
+/* ── BALL GRID ── */
+.bgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;touch-action:manipulation;}
+.bgrid.g6{grid-template-columns:repeat(6,1fr);}
+.bgrid.g5{grid-template-columns:repeat(5,1fr);}
+
+.ball{
+  aspect-ratio:1;border-radius:50%;
+  background:var(--surface2);border:1.5px solid var(--border);
+  color:var(--text2);
+  font-family:'Share Tech Mono',monospace;font-size:.76rem;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;user-select:none;-webkit-user-select:none;
+  touch-action:manipulation;
+  transition:transform .1s,border-color .12s,background .12s,color .12s,box-shadow .12s,opacity .15s;
+  -webkit-font-smoothing:antialiased;min-width:0;
+}
+.ball:active{transform:scale(.86);}
+.ball.sf{background:radial-gradient(circle at 38% 32%,#ffe080,#e8a820);border-color:var(--gold);color:#1a1000;box-shadow:0 2px 10px rgba(245,200,66,.35);}
+.ball.sd{background:radial-gradient(circle at 38% 32%,#ff8c8c,#d42030);border-color:var(--red);color:#fff;box-shadow:0 2px 12px rgba(230,57,70,.4);}
+.ball.st{background:radial-gradient(circle at 38% 32%,#88e0ff,#2090c0);border-color:var(--blue);color:#001828;}
+.ball.sb{background:radial-gradient(circle at 38% 32%,#88f0b0,#1a9050);border-color:var(--green);color:#001810;box-shadow:0 2px 10px rgba(82,214,138,.3);}
+.ball.mx{opacity:.25;}
+
+/* ── LEGEND ── */
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 6px;}
+.li{display:flex;align-items:center;gap:5px;font-size:.67rem;color:var(--text2);}
+.ld{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* ── DAN NOTE ── */
+.dan-note{background:var(--surface2);border-radius:var(--rs);padding:8px 11px;margin-top:8px;font-size:.72rem;line-height:1.8;display:none;}
+.dn-row{display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.dn-lbl{color:var(--text3);flex-shrink:0;}
+.ntags{display:flex;flex-wrap:wrap;gap:3px;}
+.ntag{padding:1px 7px;border-radius:12px;font-family:'Share Tech Mono',monospace;font-size:.7rem;font-weight:700;}
+.ntag.td{background:var(--red-bg);color:var(--red);border:1px solid rgba(230,57,70,.3);}
+.ntag.tt{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(76,201,240,.25);}
+
+/* ── COST PANEL ── */
+.cost-g{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:5px;
+  background:linear-gradient(135deg,rgba(245,200,66,.05),rgba(230,57,70,.03));
+  border:1px solid var(--border-gold);border-radius:var(--rs);
+  padding:11px 6px;margin-bottom:10px;
+}
+.cc{text-align:center;}
+.cv{font-family:'Share Tech Mono',monospace;font-size:1.25rem;color:var(--gold);font-weight:700;line-height:1;}
+.cv.big{font-size:1.65rem;}
+.cl{font-size:.58rem;color:var(--text3);margin-top:3px;}
+
+/* ── TICKET LIST ── */
+.tlist{display:flex;flex-direction:column;gap:6px;}
+.ticket{
+  background:var(--surface2);border:1px solid var(--border);border-radius:var(--rs);
+  padding:8px 11px;display:flex;flex-direction:column;gap:5px;
+  animation:fadeUp .22s ease both;
+}
+.trow{display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
+.tn{font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--text3);min-width:22px;}
+.tsep{width:1px;height:20px;background:var(--border);margin:0 3px;flex-shrink:0;}
+.tbrow{display:flex;align-items:center;gap:4px;padding-top:5px;border-top:1px dashed rgba(255,255,255,.06);}
+.blbl{font-size:.58rem;color:var(--text3);margin-right:2px;}
+.mb{width:25px;height:25px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:.62rem;font-weight:700;flex-shrink:0;}
+.mb.md{background:radial-gradient(circle at 38% 32%,#ff8c8c,#c82030);color:#fff;}
+.mb.mt{background:radial-gradient(circle at 38% 32%,#88e0ff,#1880b0);color:#001828;}
+.mb.mbk{background:radial-gradient(circle at 38% 32%,#88f0b0,#108040);color:#001810;}
+
+/* ── RESULTS HEADER ── */
+.rh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.rt{font-size:.8rem;color:var(--gold);font-weight:600;}
+
+/* ── WARN ── */
+.warn{background:rgba(230,57,70,.05);border:1px solid rgba(230,57,70,.2);border-radius:var(--rs);padding:9px 11px;font-size:.7rem;color:#e0a0a0;line-height:1.65;margin-top:9px;}
+.warn strong{color:#e88;}
+
+/* ── INLINE BUTTON ── */
+.ibtn{height:32px;padding:0 11px;border-radius:var(--rs);background:transparent;border:1px solid var(--border);color:var(--text2);font-size:.7rem;display:inline-flex;align-items:center;gap:3px;touch-action:manipulation;}
+.ibtn:active{border-color:var(--gold2);color:var(--gold);background:var(--gold-bg);}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:26px 16px;color:var(--text3);font-size:.76rem;}
+.ei{font-size:2.1rem;display:block;margin-bottom:7px;}
+
+/* ── BOTTOM ACTION BAR ── */
+.abar{
+  position:fixed;bottom:0;left:0;right:0;
+  padding:9px 12px calc(9px + var(--safe-b));
+  background:rgba(8,8,18,.93);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  display:flex;gap:9px;align-items:center;z-index:100;
+}
+.btn-p{
+  flex:1;height:48px;border-radius:12px;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:#1a1000;font-size:.9rem;font-weight:700;letter-spacing:.04em;
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  transition:opacity .15s,transform .1s;touch-action:manipulation;
+}
+.btn-p:active{transform:scale(.97);opacity:.9;}
+.btn-p:disabled{opacity:.32;pointer-events:none;}
+.btn-g{height:48px;padding:0 14px;border-radius:12px;background:transparent;border:1px solid var(--border);color:var(--text2);font-size:.8rem;transition:border-color .2s,color .2s;touch-action:manipulation;white-space:nowrap;}
+.btn-g:active{border-color:var(--gold2);color:var(--gold);}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:calc(76px + var(--safe-b) + 10px);
+  left:50%;transform:translateX(-50%) translateY(8px);
+  background:rgba(25,25,45,.96);border:1px solid var(--border-gold);
+  border-radius:22px;padding:7px 18px;font-size:.76rem;color:var(--gold);
+  opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;white-space:nowrap;z-index:200;
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ── ANIMS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:scale(.86) translateX(0)}25%{transform:scale(.86) translateX(-5px)}75%{transform:scale(.86) translateX(5px)}}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.28)}100%{transform:scale(1)}}
+.popping{animation:pop .18s ease;}
+
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:var(--gold2);border-radius:2px;}
+
+@media(min-width:480px){
+  .ball{font-size:.82rem;}
+  .bgrid{gap:6px;}
+  .mb{width:28px;height:28px;font-size:.66rem;}
+}
+</style>
 </head>
 <body>
-<div id="app">加载中，半个小时后回来··</div>
+
+<div class="hdr">
+  <div class="hdr-title">🎱 大乐透 · 旋转矩阵选号</div>
+  <div class="hdr-sub">9拖4 · 保3中3 · 12注优化覆盖</div>
+  <div class="prog" id="prog">
+    <div class="ps"><div class="pc cur" id="pc0">1</div><div class="pl cur" id="pl0">选号</div></div>
+    <div class="pline"><div class="pline-fill" id="pf01"></div></div>
+    <div class="ps"><div class="pc" id="pc1">2</div><div class="pl" id="pl1">胆码</div></div>
+    <div class="pline"><div class="pline-fill" id="pf12"></div></div>
+    <div class="ps"><div class="pc" id="pc2">3</div><div class="pl" id="pl2">后区</div></div>
+    <div class="pline"><div class="pline-fill" id="pf23"></div></div>
+    <div class="ps"><div class="pc" id="pc3">4</div><div class="pl" id="pl3">生成</div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<main>
+
+  <!-- STEP 1 -->
+  <div class="card active" id="card1">
+    <div class="chead" onclick="toggleCard(1)">
+      <div class="sbadge" id="b1">1</div>
+      <div class="cht">
+        <div class="ctitle">选择前区号码</div>
+        <div class="csub">从 01~35 中选 <b style="color:var(--gold)">10</b> 个</div>
+      </div>
+      <div class="chev">›</div>
+    </div>
+    <div class="cdiv"></div>
+    <div class="cbody" id="bd1">
+      <div class="info-row">
+        <div class="pill">已选 <span class="n" id="fc">0</span> / 10</div>
+        <div class="ibtn-row">
+          <button class="ibtn" onclick="loadExample()">📋 示例</button>
+          <button class="ibtn" onclick="resetAll()">重置</button>
+        </div>
+      </div>
+      <div class="bgrid" id="fgrid"></div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="card locked" id="card2">
+    <div class="chead" onclick="toggleCard(2)">
+      <div class="sbadge" id="b2">2</div>
+      <div class="cht">
+        <div class="ctitle">指定胆码</div>
+        <div class="csub">点选一个号码作为胆码（每注必含）</div>
+      </div>
+      <div class="chev">›</div>
+    </div>
+    <div class="cdiv"></div>
+    <div class="cbody" id="bd2">
+      <div class="legend" style="margin-top:9px">
+        <div class="li"><div class="ld" style="background:var(--red)"></div>胆码（红）</div>
+        <div class="li"><div class="ld" style="background:var(--blue)"></div>拖码（蓝）</div>
+      </div>
+      <div class="bgrid g5" id="dgrid"></div>
+      <div class="dan-note" id="dnote">
+        <div class="dn-row"><span class="dn-lbl">胆码</span><div class="ntags" id="dtag"></div></div>
+        <div class="dn-row" style="margin-top:3px"><span class="dn-lbl">拖码</span><div class="ntags" id="ttag"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="card locked" id="card3">
+    <div class="chead" onclick="toggleCard(3)">
+      <div class="sbadge" id="b3">3</div>
+      <div class="cht">
+        <div class="ctitle">选择后区号码</div>
+        <div class="csub">从 01~12 中选 2~3 个（2=单式，3=复式）</div>
+      </div>
+      <div class="chev">›</div>
+    </div>
+    <div class="cdiv"></div>
+    <div class="cbody" id="bd3">
+      <div class="info-row">
+        <div class="pill">已选 <span class="n" id="bc">0</span> / 3</div>
+      </div>
+      <div class="bgrid g6" id="bgrid"></div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="card locked" id="card4">
+    <div class="chead" onclick="toggleCard(4)">
+      <div class="sbadge" id="b4">4</div>
+      <div class="cht">
+        <div class="ctitle">生成方案</div>
+        <div class="csub">旋转矩阵 · 12注前区覆盖</div>
+      </div>
+      <div class="chev">›</div>
+    </div>
+    <div class="cdiv"></div>
+    <div class="cbody" id="bd4">
+      <div id="cpanel" style="display:none;margin-top:9px">
+        <div class="cost-g">
+          <div class="cc"><div class="cv" id="c1">—</div><div class="cl">前区注数</div></div>
+          <div class="cc"><div class="cv" id="c2">—</div><div class="cl">后区组合</div></div>
+          <div class="cc"><div class="cv" id="c3">—</div><div class="cl">总注数</div></div>
+          <div class="cc"><div class="cv big" id="c4">—</div><div class="cl">费用(元)</div></div>
+        </div>
+      </div>
+      <div id="rarea"><div class="empty"><span class="ei">🎫</span>完成上方步骤后点击「生成方案」</div></div>
+      <div class="warn" id="wbox" style="display:none">⚠️ <strong>理性购彩：</strong>本工具为组合优化工具，<strong>无法预测号码、无法提高中奖概率</strong>。方案有效性完全依赖胆码是否命中。彩票是概率游戏，请量力而行。</div>
+    </div>
+  </div>
+
+</main>
+
+<!-- BOTTOM BAR -->
+<div class="abar">
+  <button class="btn-p" id="mbtn" onclick="mainAction()">
+    <span id="micon">📋</span><span id="mtxt">载入示例</span>
+  </button>
+  <button class="btn-g" id="sbtn" onclick="resetAll()" style="display:none">重新选号</button>
+</div>
+
 <script>
-    window.$docsify = {
-        name: '📙 学习笔记',
-        repo: 'https://github.com/iridescenceZz/baize',
-        logo: './doc/icon/index.ico',
-        coverpage: true, // 设置封面
-        onlyCover: true, // 只显示封面
-        loadSidebar: true, // 设置侧边栏
-        subMaxLevel: 2, //侧边栏显示当前页面的目录(标题)
-        loadNavbar: true, // 设置导航栏
-        // 完整配置参数
-        search: {
-            placeholder: '搜索', // 搜索提示框文字， 支持本地化，例子在下面
-            noData: '找不到结果!',
-            depth: 3,                       // 搜索标题的最大程级, 1 - 6
+/* ── COVER TEMPLATE ── */
+const COVER=[[0,1,2,3],[0,4,5,6],[0,1,7,8],[1,2,4,7],[2,3,5,8],[3,4,6,7],[0,2,6,8],[1,3,4,7],[0,3,5,7],[1,2,5,6],[0,1,4,8],[2,3,6,8]];
 
-            // 使用不同的索引作为路径前缀（namespaces）
-            // 注意：仅适用于 paths: 'auto' 模式
-            //
-            // 初始化索引时，我们从侧边栏查找第一个路径
-            // 如果它与列表中的前缀匹配，我们将切换到相应的索引
-            pathNamespaces: ['/zh-cn', '/ru-ru', '/ru-ru/v1'],
+/* ── STATE ── */
+let fs=[],dan=null,tuo=[],bs=[],done=false,step=1;
 
-            // 您可以提供一个正则表达式来匹配前缀。在这种情况下，
-            // 匹配到的字符串将被用来识别索引
-            pathNamespaces: /^(\/(zh-cn|ru-ru))?(\/(v1|v2))?/
-        },
-        footer: {
-            copy: '<span id="sitetime" style="font-size:14px"></span><br/><span style="font-size:14px">  Copyright <a href="https://t.1yb.co/sBOZ" target="_blank" style="font-size:14px"> 🏷️ <strong>白泽</strong> </a>  &nbsp;  &copy; 2021.06.11 - 至今 &nbsp; <a href="https://beian.miit.gov.cn/" target="_blank" style="font-size:14px"> <strong>备案号：</strong></a></span>',
-            auth: '<br/><span style="font-size:14px"> 今天就是昨天等待的明天～</span>',
-            pre: '<hr/>',
-            style: 'text-align: left;',
-        }//添加页脚
+/* ── INIT ── */
+function init(){mkFront();mkBack();setStep(1);updateBar();}
+
+function mkFront(){
+  const g=document.getElementById('fgrid'); g.innerHTML='';
+  for(let i=1;i<=35;i++) g.appendChild(mkBall(i,'f'));
+}
+function mkBack(){
+  const g=document.getElementById('bgrid'); g.innerHTML='';
+  for(let i=1;i<=12;i++) g.appendChild(mkBall(i,'b'));
+}
+function mkBall(n,t){
+  const b=document.createElement('div');
+  b.className='ball'; b.textContent=pad(n); b.dataset.n=n; b.dataset.t=t;
+  b.addEventListener('touchend',e=>{e.preventDefault();tapBall(b,n,t);},{passive:false});
+  b.addEventListener('click',()=>tapBall(b,n,t));
+  return b;
+}
+function pad(n){return String(n).padStart(2,'0');}
+
+/* ── TAP ── */
+function tapBall(el,n,t){
+  if(t==='f') tapF(el,n);
+  else if(t==='b') tapB(el,n);
+  else if(t==='d') tapD(el,n);
+}
+
+function tapF(el,n){
+  if(el.classList.contains('sf')){
+    fs=fs.filter(x=>x!==n); el.classList.remove('sf');
+    document.querySelectorAll('#fgrid .ball').forEach(b=>b.classList.remove('mx'));
+    if(step>=2) clearFrom(2);
+    setStep(1);
+  } else {
+    if(fs.length>=10){shake(el);toast('最多选10个前区号码');return;}
+    fs.push(n); el.classList.add('sf'); pop(el);
+    if(fs.length===10){
+      document.querySelectorAll('#fgrid .ball:not(.sf)').forEach(b=>b.classList.add('mx'));
+      stepFrontDone();
     }
-</script>
+  }
+  document.getElementById('fc').textContent=fs.length;
+  updateBar();
+}
 
-<script src="https://cdn.bootcdn.net/ajax/libs/docsify/4.11.2/docsify.js"></script>
+function tapD(el,n){
+  dan=n; tuo=fs.filter(x=>x!==n).sort((a,b)=>a-b);
+  document.querySelectorAll('#dgrid .ball').forEach(b=>{
+    const bn=+b.dataset.n; b.className='ball';
+    if(bn===dan){b.classList.add('sd');pop(b);}
+    else b.classList.add('st');
+  });
+  const dn=document.getElementById('dnote'); dn.style.display='block';
+  document.getElementById('dtag').innerHTML=`<span class="ntag td">${pad(dan)}</span>`;
+  document.getElementById('ttag').innerHTML=tuo.map(x=>`<span class="ntag tt">${pad(x)}</span>`).join('');
+  clearFrom(3); stepDanDone();
+  updateBar();
+}
 
-<!-- 引入搜索模块 -->
-<script src="https://cdn.bootcdn.net/ajax/libs/docsify/4.11.2/plugins/search.min.js"></script>
+function tapB(el,n){
+  if(el.classList.contains('sb')){
+    bs=bs.filter(x=>x!==n); el.classList.remove('sb');
+    document.querySelectorAll('#bgrid .ball').forEach(b=>b.classList.remove('mx'));
+    done=false; document.getElementById('card4').classList.add('locked');
+  } else {
+    if(bs.length>=3){shake(el);toast('最多选3个后区号码');return;}
+    bs.push(n); el.classList.add('sb'); pop(el);
+    if(bs.length===3) document.querySelectorAll('#bgrid .ball:not(.sb)').forEach(b=>b.classList.add('mx'));
+  }
+  document.getElementById('bc').textContent=bs.length;
+  updateBar();
+}
 
-<!-- 添加一键拷贝代码-->
-<script src="//unpkg.com/docsify-copy-code"></script>
-</script>
+/* ── STEP FLOWS ── */
+function stepFrontDone(){
+  const g=document.getElementById('dgrid'); g.innerHTML='';
+  fs.slice().sort((a,b)=>a-b).forEach(n=>{
+    const b=mkBall(n,'d'); g.appendChild(b);
+  });
+  dan=null; tuo=[];
+  document.getElementById('dnote').style.display='none';
+  document.getElementById('card2').classList.remove('locked');
+  setStep(2);
+  setTimeout(()=>scrollTo('card2'),100);
+}
 
-<!--添加不蒜子访问统计-->
-<script async
-        src="https://cdn.jsdelivr.net/gh/forthespada/forthespada.github.io@master/plugin/js/busuanzi.pure.mini.js"></script>
+function stepDanDone(){
+  document.getElementById('card3').classList.remove('locked');
+  bs=[]; mkBack(); document.getElementById('bc').textContent=0;
+  setStep(3);
+  setTimeout(()=>scrollTo('card3'),100);
+}
 
-<!-- mouse click -->
-<script src="https://cdn.jsdelivr.net/gh/forthespada/forthespada.github.io@master/plugin/click_heart.js"></script>
+function clearFrom(s){
+  if(s<=2){dan=null;tuo=[];document.getElementById('card2').classList.add('locked');document.getElementById('dnote').style.display='none';}
+  if(s<=3){bs=[];document.getElementById('bc').textContent=0;mkBack();document.getElementById('card3').classList.add('locked');}
+  if(s<=4){done=false;document.getElementById('card4').classList.add('locked');document.getElementById('cpanel').style.display='none';document.getElementById('wbox').style.display='none';document.getElementById('rarea').innerHTML='<div class="empty"><span class="ei">🎫</span>完成上方步骤后点击「生成方案」</div>';}
+}
 
-<!-- 添加页脚 -->
-<script src="https://cdn.jsdelivr.net/gh/wugenqiang/NoteBook@master/plugin/docsify-footer-enh.min.js"></script>
+/* ── GENERATE ── */
+function generate(){
+  if(!dan){toast('请先选择胆码');return;}
+  if(bs.length<2){toast('请至少选择2个后区号码');return;}
+  document.getElementById('card4').classList.remove('locked');
+  setStep(4);
+  const s=[...bs].sort((a,b)=>a-b);
+  const bcombos=s.length===2?[s]:[[s[0],s[1]],[s[0],s[2]],[s[1],s[2]]];
+  const fcombos=COVER.map(row=>[dan,...row.map(i=>tuo[i])].sort((a,b)=>a-b));
+  const tickets=[];
+  fcombos.forEach(fc=>bcombos.forEach(bc=>tickets.push({f:fc,b:bc})));
+  const cost=tickets.length*2;
+  document.getElementById('c1').textContent=12;
+  document.getElementById('c2').textContent=bcombos.length;
+  document.getElementById('c3').textContent=tickets.length;
+  document.getElementById('c4').textContent=cost;
+  document.getElementById('cpanel').style.display='grid';
 
-<!-- 字数统计功能 -->
-<script src="//unpkg.com/docsify-count/dist/countable.js"></script>
+  const area=document.getElementById('rarea'); area.innerHTML='';
+  const hdr=document.createElement('div'); hdr.className='rh';
+  hdr.innerHTML=`<div class="rt">🎫 共 ${tickets.length} 注彩票</div><button class="ibtn" onclick="copyAll()">📋 复制全部</button>`;
+  area.appendChild(hdr);
+  const list=document.createElement('div'); list.className='tlist';
+  tickets.forEach((t,i)=>{
+    const div=document.createElement('div'); div.className='ticket'; div.style.animationDelay=`${Math.min(i,24)*25}ms`;
+    const fr=document.createElement('div'); fr.className='trow';
+    const nl=document.createElement('div'); nl.className='tn'; nl.textContent=`#${pad(i+1)}`;
+    fr.appendChild(nl);
+    const sep=document.createElement('div'); sep.className='tsep'; fr.appendChild(sep);
+    t.f.forEach(n=>{const mb=document.createElement('div');mb.className=`mb ${n===dan?'md':'mt'}`;mb.textContent=pad(n);fr.appendChild(mb);});
+    div.appendChild(fr);
+    const br=document.createElement('div'); br.className='tbrow';
+    const bl=document.createElement('div'); bl.className='blbl'; bl.textContent='后区'; br.appendChild(bl);
+    t.b.forEach(n=>{const mb=document.createElement('div');mb.className='mb mbk';mb.textContent=pad(n);br.appendChild(mb);});
+    div.appendChild(br);
+    list.appendChild(div);
+  });
+  area.appendChild(list);
+  document.getElementById('wbox').style.display='block';
+  done=true; updateBar();
+  setTimeout(()=>scrollTo('card4'),200);
+}
 
-<!-- 图片缩小方法-->
-<script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
-
-<!-- 回到顶部功能 -->
-<script src="https://cdn.jsdelivr.net/gh/forthespada/forthespada.github.io@master/plugin/jquery.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/forthespada/forthespada.github.io@master/plugin/jquery.goup.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $.goup({
-            trigger: 700,
-            bottomOffset: 20,
-            locationOffset: 8,
-            title: '',
-            titleAsText: true
-        });
+/* ── COPY ── */
+function copyAll(){
+  if(!dan){toast('尚未生成方案');return;}
+  const s=[...bs].sort((a,b)=>a-b);
+  const bcombos=s.length===2?[s]:[[s[0],s[1]],[s[0],s[2]],[s[1],s[2]]];
+  let lines=[];
+  COVER.forEach((row,i)=>{
+    const front=[dan,...row.map(j=>tuo[j])].sort((a,b)=>a-b).map(pad).join(' ');
+    bcombos.forEach((bc,bi)=>{
+      lines.push(`#${pad(i*bcombos.length+bi+1)} 前区: ${front}  后区: ${bc.map(pad).join('+')}`);
     });
+  });
+  const txt=`大乐透旋转矩阵方案\n胆码: ${pad(dan)}  共${lines.length}注\n${'─'.repeat(30)}\n${lines.join('\n')}`;
+  if(navigator.clipboard?.writeText){
+    navigator.clipboard.writeText(txt).then(()=>toast('✅ 已复制到剪贴板'));
+  } else {
+    const ta=document.createElement('textarea');
+    ta.value=txt;ta.style.cssText='position:fixed;opacity:0;top:0;left:0';
+    document.body.appendChild(ta);ta.focus();ta.select();
+    try{document.execCommand('copy');toast('✅ 已复制到剪贴板');}catch(e){toast('请手动长按复制');}
+    document.body.removeChild(ta);
+  }
+}
+
+/* ── EXAMPLE ── */
+function loadExample(){
+  resetAll(true);
+  [1,7,9,13,14,15,23,24,29,34].forEach(n=>{
+    const b=document.querySelector(`#fgrid [data-n="${n}"]`);
+    if(b){fs.push(n);b.classList.add('sf');}
+  });
+  document.querySelectorAll('#fgrid .ball:not(.sf)').forEach(b=>b.classList.add('mx'));
+  document.getElementById('fc').textContent=10;
+  stepFrontDone();
+  setTimeout(()=>{
+    const db=document.querySelector('#dgrid [data-n="14"]');
+    if(db) tapD(db,14);
+    [5,11].forEach(n=>{
+      const b=document.querySelector(`#bgrid [data-n="${n}"]`);
+      if(b){bs.push(n);b.classList.add('sb');}
+    });
+    document.getElementById('bc').textContent=2;
+    updateBar();
+  },350);
+}
+
+/* ── RESET ── */
+function resetAll(silent){
+  fs=[];dan=null;tuo=[];bs=[];done=false;
+  mkFront();mkBack();
+  document.getElementById('fc').textContent=0;
+  document.getElementById('bc').textContent=0;
+  ['card2','card3','card4'].forEach(id=>document.getElementById(id).classList.add('locked'));
+  clearFrom(1); setStep(1); updateBar();
+  if(!silent) scrollTo('card1');
+}
+
+/* ── CARD TOGGLE ── */
+function toggleCard(n){
+  const card=document.getElementById(`card${n}`);
+  if(card.classList.contains('locked')) return;
+  const body=document.getElementById(`bd${n}`);
+  if(card.classList.contains('coll')){
+    card.classList.remove('coll');
+    body.style.maxHeight=(body.scrollHeight+300)+'px';
+    body.style.opacity='1'; body.style.paddingBottom='13px';
+  } else {
+    body.style.maxHeight=body.scrollHeight+'px';
+    requestAnimationFrame(()=>{
+      card.classList.add('coll');
+      body.style.maxHeight='0'; body.style.opacity='0'; body.style.paddingBottom='0';
+    });
+  }
+}
+
+/* ── ACTION BAR ── */
+function mainAction(){
+  if(fs.length===0){loadExample();return;}
+  if(done){copyAll();return;}
+  if(bs.length>=2&&dan){generate();return;}
+}
+
+function updateBar(){
+  const mb=document.getElementById('mbtn');
+  const mi=document.getElementById('micon');
+  const mt=document.getElementById('mtxt');
+  const sb=document.getElementById('sbtn');
+  if(fs.length===0){mi.textContent='📋';mt.textContent='载入示例';mb.disabled=false;sb.style.display='none';return;}
+  if(fs.length<10){mi.textContent='🔢';mt.textContent=`再选 ${10-fs.length} 个`;mb.disabled=true;sb.style.display='none';return;}
+  if(!dan){mi.textContent='👆';mt.textContent='请选择胆码';mb.disabled=true;sb.style.display='none';return;}
+  if(bs.length<2){mi.textContent='🟢';mt.textContent=`再选 ${2-bs.length} 个后区`;mb.disabled=true;sb.style.display='none';return;}
+  if(!done){mi.textContent='🎲';mt.textContent='生成方案';mb.disabled=false;sb.style.display='none';return;}
+  mi.textContent='📋';mt.textContent='复制方案';mb.disabled=false;sb.style.display='block';
+}
+
+/* ── PROGRESS ── */
+function setStep(s){
+  step=s;
+  for(let i=0;i<=3;i++){
+    const pc=document.getElementById(`pc${i}`);
+    const pl=document.getElementById(`pl${i}`);
+    pc.className='pc'; pl.className='pl';
+    if(i<s){pc.classList.add('done');pl.classList.add('done');}
+    else if(i===s){pc.classList.add('cur');pl.classList.add('cur');}
+  }
+  ['01','12','23'].forEach((p,idx)=>{
+    document.getElementById(`pf${p}`).style.width=(idx<s-1)?'100%':'0';
+  });
+}
+
+/* ── UTILS ── */
+function scrollTo(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});}
+function pop(el){el.classList.remove('popping');void el.offsetWidth;el.classList.add('popping');setTimeout(()=>el.classList.remove('popping'),200);}
+function shake(el){el.style.animation='none';void el.offsetWidth;el.style.animation='shake .28s ease';setTimeout(()=>el.style.animation='',320);}
+let _tt;
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),2000);
+}
+
+init();
 </script>
-
-<!-- 添加代码高亮 -->
-<script src="//unpkg.com/prismjs/components/prism-bash.js"></script>
-<script src="//unpkg.com/prismjs/components/prism-java.js"></script>
-<script src="//unpkg.com/prismjs/components/prism-sql.js"></script>
-<script src="//unpkg.com/prismjs/components/prism-java.js"></script>
-<script src="//unpkg.com/prismjs/components/prism-sql.js"></script>
-
-
-<!-- 添加网站运行时间统计 -->
-<script language=javascript>
-    function siteTime() {
-        window.setTimeout("siteTime()", 1000);
-        var seconds = 1000;
-        var minutes = seconds * 60;
-        var hours = minutes * 60;
-        var days = hours * 24;
-        var years = days * 365;
-        var today = new Date();
-        var todayYear = today.getFullYear();
-        var todayMonth = today.getMonth() + 1;
-        var todayDate = today.getDate();
-        var todayHour = today.getHours();
-        var todayMinute = today.getMinutes();
-        var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
-        year - 作为date对象的年份，为4位年份值
-        month - 0-11之间的整数，做为date对象的月份
-        day - 1-31之间的整数，做为date对象的天数
-        hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
-        minutes - 0-59之间的整数，做为date对象的分钟数
-        seconds - 0-59之间的整数，做为date对象的秒数
-        microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2019, 15, 07, 00, 00, 00); //北京时间2019-07-15
-        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-        var diff = t2 - t1;
-        var diffYears = Math.floor(diff / years);
-        var diffDays = Math.floor((diff / days) - diffYears * 365);
-        var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-        var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
-        var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
-        if (document.getElementById("sitetime")) {
-            document.getElementById("sitetime").innerHTML = " 笔记已运行 " + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分 " + diffSeconds + " 秒 ";
-        }
-    }
-
-    siteTime();
-</script>
-
-<!--百度统计-->
-<script>
-    var _hmt = _hmt || [];
-    (function () {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?c00520bb4e9f9da914a67d02c3de815a";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-
-
 </body>
 </html>
