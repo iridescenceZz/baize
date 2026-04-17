@@ -4,8 +4,7 @@
 
 ## 在线体验
 
-- 🔗 **链接**：[note.moguit.cn](https://note.moguit.cn)
-- 📦 GitHub Pages：[iridescenceZz.github.io/baize](https://iridescencezz.github.io/baize/)
+- 🔗 **链接**：[ufate.me](https://ufate.me)
 
 ## 功能
 
@@ -13,7 +12,7 @@
 - 后区号码（1-12）多选
 - 旋转矩阵算法生成多注组合
 - 一键复制号码方案
-- 移动端适配 / PWA 友好
+- 移动端适配 / 扫码二维码分享
 
 ## 免责声明
 
