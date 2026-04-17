@@ -8,6 +8,7 @@
 <meta name="theme-color" content="#080812">
 <title>大乐透 · 旋转矩阵</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root {
   --gold:#f5c842; --gold2:#c9a020; --gold-bg:rgba(245,200,66,.10);
@@ -233,6 +234,45 @@ main{padding:10px 10px 0;display:flex;flex-direction:column;gap:9px;max-width:56
   .bgrid{gap:6px;}
   .mb{width:28px;height:28px;font-size:.66rem;}
 }
+
+/* ── QR MODAL ── */
+.qr-overlay{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;
+}
+.qr-overlay.show{display:flex;}
+.qr-box{
+  background:var(--surface);border:1px solid var(--border-gold);
+  border-radius:18px;padding:24px 20px 20px;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  max-width:280px;width:90%;
+  animation:fadeUp .22s ease both;
+}
+.qr-title{font-size:.9rem;font-weight:700;color:var(--gold);letter-spacing:.04em;}
+.qr-sub{font-size:.65rem;color:var(--text3);text-align:center;line-height:1.6;}
+#qrcanvas{background:#fff;border-radius:10px;padding:8px;}
+.qr-url{
+  font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text3);
+  word-break:break-all;text-align:center;
+  background:var(--surface2);border-radius:6px;padding:5px 10px;width:100%;
+}
+.qr-close{
+  margin-top:4px;height:36px;padding:0 24px;border-radius:20px;
+  background:var(--gold-bg);border:1px solid var(--border-gold);
+  color:var(--gold);font-size:.78rem;font-weight:600;
+}
+.qr-close:active{background:var(--gold);color:#1a1000;}
+
+/* ── SHARE BTN ── */
+.btn-qr{
+  height:44px;padding:0 14px;border-radius:var(--rs);
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text2);font-size:.78rem;display:inline-flex;align-items:center;gap:5px;
+  flex-shrink:0;
+}
+.btn-qr:active{border-color:var(--gold2);color:var(--gold);background:var(--gold-bg);}
+
 </style>
 </head>
 <body>
@@ -354,6 +394,18 @@ main{padding:10px 10px 0;display:flex;flex-direction:column;gap:9px;max-width:56
     <span id="micon">📋</span><span id="mtxt">载入示例</span>
   </button>
   <button class="btn-g" id="sbtn" onclick="resetAll()" style="display:none">重新选号</button>
+  <button class="btn-qr" onclick="showQR()" title="扫码分享">📲 二维码</button>
+</div>
+
+<!-- QR MODAL -->
+<div class="qr-overlay" id="qrOverlay" onclick="hideQR(event)">
+  <div class="qr-box" onclick="event.stopPropagation()">
+    <div class="qr-title">📲 扫码打开</div>
+    <div id="qrcanvas"></div>
+    <div class="qr-url" id="qrUrl"></div>
+    <div class="qr-sub">用手机扫描上方二维码即可打开</div>
+    <button class="qr-close" onclick="hideQR()">关闭</button>
+  </div>
 </div>
 
 <script>
@@ -627,6 +679,26 @@ function toast(msg){
 }
 
 init();
+
+/* ── QR CODE ── */
+const PAGE_URL = 'https://iridescencezz.github.io/baize/';
+let _qrInited = false;
+function showQR(){
+  document.getElementById('qrOverlay').classList.add('show');
+  document.getElementById('qrUrl').textContent = PAGE_URL;
+  if(!_qrInited){
+    new QRCode(document.getElementById('qrcanvas'),{
+      text: PAGE_URL, width:180, height:180,
+      colorDark:'#1a1000', colorLight:'#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    _qrInited = true;
+  }
+}
+function hideQR(e){
+  if(!e || e.target===document.getElementById('qrOverlay'))
+    document.getElementById('qrOverlay').classList.remove('show');
+}
 </script>
 </body>
 </html>
